@@ -1,0 +1,31 @@
+close all;
+clear all;
+clc;
+
+addpath(genpath('../'));
+
+img_path = '../EM_P.Fua_Mitochondria/';
+training_img_name = 'training.tif';
+training_gd_img_name = 'training_groundtruth.tif';
+testing_img_name = 'testing.tif';
+testing_gd_img_name = 'testing_groundtruth.tif';
+
+num_training_img = 165;
+num_testing_img = 0;
+imfinfo([img_path testing_img_name]);
+
+for i = 1 : 1 : 1
+    img1 = imread([img_path training_img_name], i);
+    figure, imshow(img1);
+    img2 = im2double(img1) * 100;
+    sigma = 5;
+    gausFilter = fspecial('gaussian', [10 10], sigma);
+    img_blur=imfilter(img1, gausFilter, 'replicate');
+    figure, imshow(img_blur);
+    h = figure('position', [50 50 1500 750]);
+    mesh(img_blur);
+    
+    colormap(bone);
+end
+
+tic;
